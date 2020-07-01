@@ -128,7 +128,7 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
-        if (resultCode == REQUEST_POST_TWEET && requestCode == RESULT_OK) {
+        if (requestCode == REQUEST_POST_TWEET && resultCode == RESULT_OK) {
             Log.i(TAG, "Received data from child activity");
             Tweet tweet = data.getParcelableExtra(KEY_TWEET);
             tweets.add(0, tweet);
