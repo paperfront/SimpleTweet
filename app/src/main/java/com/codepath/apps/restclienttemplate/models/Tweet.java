@@ -15,6 +15,7 @@ public class Tweet implements Parcelable {
     private String body;
     private String createdAt;
     private String mediaUrl;
+    private String id;
     private boolean liked;
     private boolean retweeted;
     private User user;
@@ -26,6 +27,7 @@ public class Tweet implements Parcelable {
         body = in.readString();
         createdAt = in.readString();
         mediaUrl = in.readString();
+        id = in.readString();
         liked = in.readBoolean();
         retweeted = in.readBoolean();
         user = in.readParcelable(User.class.getClassLoader());
@@ -53,6 +55,7 @@ public class Tweet implements Parcelable {
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.liked = jsonObject.getBoolean("favorited");
         tweet.retweeted = jsonObject.getBoolean("retweeted");
+        tweet.id = jsonObject.getString("id_str");
         tweet.mediaUrl = MISSING_URL_FLAG;
         tweet.setMediaUrl(jsonObject);
         return tweet;
@@ -89,12 +92,20 @@ public class Tweet implements Parcelable {
         return !mediaUrl.equals(MISSING_URL_FLAG);
     }
 
+    public void toggleRetweeted() {
+        retweeted = !retweeted;
+    }
+
     public boolean isLiked() {
         return liked;
     }
 
     public boolean isRetweeted() {
         return retweeted;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
@@ -116,6 +127,7 @@ public class Tweet implements Parcelable {
         parcel.writeString(body);
         parcel.writeString(createdAt);
         parcel.writeString(mediaUrl);
+        parcel.writeString(id);
         parcel.writeBoolean(liked);
         parcel.writeBoolean(retweeted);
         parcel.writeParcelable(user, flags);
