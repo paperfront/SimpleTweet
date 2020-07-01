@@ -15,6 +15,8 @@ public class Tweet implements Parcelable {
     private String body;
     private String createdAt;
     private String mediaUrl;
+    private boolean liked;
+    private boolean retweeted;
     private User user;
 
     public static final String MISSING_URL_FLAG = "NO MEDIA FOUND";
@@ -24,6 +26,8 @@ public class Tweet implements Parcelable {
         body = in.readString();
         createdAt = in.readString();
         mediaUrl = in.readString();
+        liked = in.readBoolean();
+        retweeted = in.readBoolean();
         user = in.readParcelable(User.class.getClassLoader());
     }
 
@@ -47,6 +51,8 @@ public class Tweet implements Parcelable {
         tweet.body = jsonObject.getString("text");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.liked = jsonObject.getBoolean("favorited");
+        tweet.retweeted = jsonObject.getBoolean("retweeted");
         tweet.mediaUrl = MISSING_URL_FLAG;
         tweet.setMediaUrl(jsonObject);
         return tweet;
@@ -83,6 +89,14 @@ public class Tweet implements Parcelable {
         return !mediaUrl.equals(MISSING_URL_FLAG);
     }
 
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public boolean isRetweeted() {
+        return retweeted;
+    }
+
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
         List<Tweet> tweets = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -102,6 +116,8 @@ public class Tweet implements Parcelable {
         parcel.writeString(body);
         parcel.writeString(createdAt);
         parcel.writeString(mediaUrl);
+        parcel.writeBoolean(liked);
+        parcel.writeBoolean(retweeted);
         parcel.writeParcelable(user, flags);
     }
 }
