@@ -31,8 +31,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvName"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="5dp"
         android:layout_marginTop="0dp"
+        android:layout_marginEnd="16dp"
         android:layout_toEndOf="@+id/ivProfile"
         tools:text="I love memorizing chess openings!" />
 
@@ -64,7 +66,7 @@
         android:layout_alignStart="@+id/tvBody"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         tools:srcCompat="@tools:sample/avatars" />
 </RelativeLayout>

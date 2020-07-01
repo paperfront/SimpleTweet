@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ComposeTweetActivity">
+    tools:context=".activities.ComposeTweetActivity">
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:counterEnabled="true"
-        app:counterMaxLength="280">
+        android:id="@+id/tlCounter">
 
         <EditText
             android:id="@+id/etBody"

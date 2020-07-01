@@ -1,7 +1,9 @@
-package com.codepath.apps.restclienttemplate;
+package com.codepath.apps.restclienttemplate.REST;
 
 import android.content.Context;
 
+import com.codepath.apps.restclienttemplate.BuildConfig;
+import com.codepath.apps.restclienttemplate.R;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.codepath.oauth.OAuthBaseClient;

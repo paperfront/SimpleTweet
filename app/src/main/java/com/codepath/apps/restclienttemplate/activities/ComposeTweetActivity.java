@@ -1,19 +1,21 @@
-package com.codepath.apps.restclienttemplate;
+package com.codepath.apps.restclienttemplate.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codepath.apps.restclienttemplate.R;
+import com.codepath.apps.restclienttemplate.REST.TwitterApplication;
+import com.codepath.apps.restclienttemplate.REST.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +29,11 @@ import okhttp3.Headers;
 public class ComposeTweetActivity extends AppCompatActivity {
 
     private static final String TAG = "ComposeTweetActivity";
+    // Maximum characters in a tweet.
+    public static final int MAX_TWEET_LENGTH = 280;
+
+
+    private TextInputLayout tlCounter;
     private TextView etBody;
     private Button btSubmit;
 
@@ -40,7 +47,7 @@ public class ComposeTweetActivity extends AppCompatActivity {
         client = TwitterApplication.getRestClient(this);
 
         bindElements();
-        setupPostButton();
+        setupElements();
     }
 
 
@@ -51,6 +58,22 @@ public class ComposeTweetActivity extends AppCompatActivity {
     private void bindElements() {
         etBody = findViewById(R.id.etBody);
         btSubmit = findViewById(R.id.btSubmit);
+        tlCounter = findViewById(R.id.tlCounter);
+    }
+
+    /**
+     * Setup for all views.
+     */
+    private void setupElements() {
+        setupPostButton();
+        setupTextLayout();
+    }
+
+    /**
+     * Sets the maximum value for the character counter.
+     */
+    private void setupTextLayout() {
+        tlCounter.setCounterMaxLength(MAX_TWEET_LENGTH);
     }
 
 
@@ -67,7 +90,7 @@ public class ComposeTweetActivity extends AppCompatActivity {
                             "Sorry, your tweet cannot be empty",
                             Toast.LENGTH_SHORT).show();
                     return;
-                } else if (tweetBody.length() > 140) {
+                } else if (tweetBody.length() > MAX_TWEET_LENGTH) {
                     Toast.makeText(ComposeTweetActivity.this,
                             "Sorry, your tweet is too long",
                             Toast.LENGTH_SHORT).show();

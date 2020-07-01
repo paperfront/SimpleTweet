@@ -1,4 +1,4 @@
-package com.codepath.apps.restclienttemplate;
+package com.codepath.apps.restclienttemplate.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,14 +12,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.codepath.apps.restclienttemplate.R;
+import com.codepath.apps.restclienttemplate.REST.TwitterApplication;
+import com.codepath.apps.restclienttemplate.REST.TwitterClient;
 import com.codepath.apps.restclienttemplate.adapters.TweetsAdapter;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.github.scribejava.apis.TwitterApi;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,25 +39,43 @@ public class TimelineActivity extends AppCompatActivity {
 
     public static final int REQUEST_POST_TWEET = 100;
 
-    public static final String KEY_TWEET = "tweet";
+    public static final String KEY_TWEET = "TWEET";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+
         client = TwitterApplication.getRestClient(this);
+
         bindElements();
-        setupRV();
-        setupSwipeContainer();
+        setupElements();
+
         fetchTimelineAsync();
     }
 
+    /**
+     * Locates and assigns the activity elements.
+     * todo Switch to ViewBinding
+     */
     private void bindElements() {
         swipeContainer = findViewById(R.id.swipeContainer);
         rvTimeline = findViewById(R.id.rvTimeline);
     }
 
+    /**
+     * Setup for all views.
+     */
+    private void setupElements() {
+        setupRV();
+        setupSwipeContainer();
+    }
+
+    /**
+     * Handles the creation of the adapter and layout manager
+     * for the Tweet Recycler View.
+     */
     private void setupRV() {
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(tweets, this);
@@ -65,6 +83,9 @@ public class TimelineActivity extends AppCompatActivity {
         rvTimeline.setAdapter(adapter);
     }
 
+    /**
+     * Setups the refresh on swipe functionality.
+     */
     private void setupSwipeContainer() {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -80,6 +101,9 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_red_light);
     }
 
+    /**
+     * Loads tweets into the adapter asynchronously.
+     */
     private void fetchTimelineAsync() {
         // Send the network request to fetch the updated data
         // `client` here is an instance of Android Async HTTP

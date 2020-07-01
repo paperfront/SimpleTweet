@@ -1,4 +1,4 @@
-package com.codepath.apps.restclienttemplate;
+package com.codepath.apps.restclienttemplate.REST;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
