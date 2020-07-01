@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +34,10 @@ public class TimelineActivity extends AppCompatActivity {
 
     private RecyclerView rvTimeline;
     private TweetsAdapter adapter;
+
+    public static final int REQUEST_POST_TWEET = 100;
+
+    public static final String KEY_TWEET = "tweet";
 
 
     @Override
@@ -89,9 +94,23 @@ public class TimelineActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.miCompose) {
             Intent i = new Intent(TimelineActivity.this, ComposeTweetActivity.class);
-            startActivity(i);
+            startActivityForResult(i, REQUEST_POST_TWEET);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        if (resultCode == REQUEST_POST_TWEET && requestCode == RESULT_OK) {
+            Log.i(TAG, "Received data from child activity");
+            Tweet tweet = data.getParcelableExtra(KEY_TWEET);
+            tweets.add(0, tweet);
+            adapter.notifyItemInserted(0);
+            rvTimeline.smoothScrollToPosition(0);
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
