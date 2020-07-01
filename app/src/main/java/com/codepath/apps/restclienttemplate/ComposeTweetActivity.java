@@ -41,9 +41,6 @@ public class ComposeTweetActivity extends AppCompatActivity {
 
         bindElements();
         setupPostButton();
-
-
-
     }
 
 

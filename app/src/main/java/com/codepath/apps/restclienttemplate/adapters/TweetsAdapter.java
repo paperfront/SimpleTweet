@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate.adapters;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView ivPoster;
+        private ImageView ivMedia;
         private TextView tvName;
         private TextView tvBody;
         private TextView tvUsername;
@@ -69,6 +71,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivPoster = itemView.findViewById(R.id.ivProfile);
+            ivMedia = itemView.findViewById(R.id.ivMedia);
             tvName = itemView.findViewById(R.id.tvName);
             tvBody = itemView.findViewById(R.id.tvBody);
             tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
@@ -76,6 +79,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         }
 
         public void bind(Tweet tweet) {
+
+            if (tweet.hasMediaUrl()) {
+                Glide.with(context).load(tweet.getMediaUrl()).into(ivMedia);
+            } else {
+                ivMedia.setVisibility(View.GONE);
+            }
+
             Glide.with(context).load(tweet.getUser().getPublicImageUrl()).into(ivPoster);
             tvName.setText(tweet.getUser().getName());
             tvBody.setText(tweet.getBody());
