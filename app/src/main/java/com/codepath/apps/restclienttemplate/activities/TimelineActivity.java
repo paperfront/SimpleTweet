@@ -37,6 +37,7 @@ public class TimelineActivity extends AppCompatActivity {
     private TweetsAdapter adapter;
     private SwipeRefreshLayout swipeContainer;
 
+
     public static final int REQUEST_POST_TWEET = 100;
 
     public static final String KEY_TWEET = "TWEET";
@@ -62,6 +63,7 @@ public class TimelineActivity extends AppCompatActivity {
     private void bindElements() {
         swipeContainer = findViewById(R.id.swipeContainer);
         rvTimeline = findViewById(R.id.rvTimeline);
+
     }
 
     /**
@@ -162,4 +164,6 @@ public class TimelineActivity extends AppCompatActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
 }

@@ -7,5 +7,7 @@
     <string name="intent_host">cprest</string>
     <string name="post">Post</string>
     <string name="what_s_popping">What\'s popping?</string>
+    <string name="loading">Loading...</string>
+    <string name="compose">Compose</string>
 
 </resources>

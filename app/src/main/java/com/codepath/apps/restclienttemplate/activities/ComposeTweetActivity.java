@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class ComposeTweetActivity extends AppCompatActivity {
     private TextInputLayout tlCounter;
     private TextView etBody;
     private Button btSubmit;
+    private MenuItem miActionProgressItem;
 
     private TwitterClient client;
 
@@ -59,6 +61,7 @@ public class ComposeTweetActivity extends AppCompatActivity {
         etBody = findViewById(R.id.etBody);
         btSubmit = findViewById(R.id.btSubmit);
         tlCounter = findViewById(R.id.tlCounter);
+        miActionProgressItem = findViewById(R.id.miActionProgress);
     }
 
     /**
@@ -104,15 +107,20 @@ public class ComposeTweetActivity extends AppCompatActivity {
 
     /**
      * Handles the API request for posting a tweet.
+     * Also handles the displaying and hiding of
+     * the progress indicator while the post is
+     * being made.
      * @param tweetBody The text contained in the
      *                  body of the tweet ot be
      *                  posted.
      */
     private void postTweet(String tweetBody) {
+        showProgressBar();
         client.postTweet(tweetBody, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG, "Successfully posted tweet");
+                hideProgressBar();
                 sendBackTweet(json);
             }
 
@@ -140,6 +148,16 @@ public class ComposeTweetActivity extends AppCompatActivity {
             Log.e(TAG, "Failed to extract tweet from JSON");
             e.printStackTrace();
         }
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
     }
 
 
