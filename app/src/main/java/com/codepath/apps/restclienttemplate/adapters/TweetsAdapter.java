@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate.adapters;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.R;
+import com.codepath.apps.restclienttemplate.databinding.ItemTweetBinding;
 import com.codepath.apps.restclienttemplate.helpers.ParseRelativeDate;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
@@ -66,16 +68,18 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         private TextView tvBody;
         private TextView tvUsername;
         private TextView tvTimestamp;
+        private ItemTweetBinding binding;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivPoster = itemView.findViewById(R.id.ivProfile);
-            ivMedia = itemView.findViewById(R.id.ivMedia);
-            tvName = itemView.findViewById(R.id.tvName);
-            tvBody = itemView.findViewById(R.id.tvBody);
-            tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
-            tvUsername = itemView.findViewById(R.id.tvUsername);
+            binding = ItemTweetBinding.bind(itemView);
+            ivPoster = binding.ivProfile;
+            ivMedia = binding.ivMedia;
+            tvName = binding.tvName;
+            tvBody = binding.tvBody;
+            tvTimestamp = binding.tvTimestamp;
+            tvUsername = binding.tvUsername;
         }
 
         public void bind(Tweet tweet) {
@@ -89,7 +93,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             Glide.with(context).load(tweet.getUser().getPublicImageUrl()).into(ivPoster);
             tvName.setText(tweet.getUser().getName());
             tvBody.setText(tweet.getBody());
-            tvUsername.setText(tweet.getUser().getScreenName());
+            tvUsername.setText("@" + tweet.getUser().getScreenName());
             tvTimestamp.setText(ParseRelativeDate.getRelativeTimeAgo(tweet.getCreatedAt()));
         }
     }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.REST.TwitterApplication;
 import com.codepath.apps.restclienttemplate.REST.TwitterClient;
+import com.codepath.apps.restclienttemplate.databinding.ActivityComposeTweetBinding;
+import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.google.android.material.textfield.TextInputLayout;
@@ -38,12 +41,18 @@ public class ComposeTweetActivity extends AppCompatActivity {
     private TextView etBody;
     private Button btSubmit;
     private MenuItem miActionProgressItem;
+    private ActivityComposeTweetBinding binding;
 
     private TwitterClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        binding = ActivityComposeTweetBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
         setContentView(R.layout.activity_compose_tweet);
 
         client = TwitterApplication.getRestClient(this);
@@ -58,10 +67,9 @@ public class ComposeTweetActivity extends AppCompatActivity {
      * todo Switch to ViewBinding
      */
     private void bindElements() {
-        etBody = findViewById(R.id.etBody);
-        btSubmit = findViewById(R.id.btSubmit);
-        tlCounter = findViewById(R.id.tlCounter);
-        miActionProgressItem = findViewById(R.id.miActionProgress);
+        etBody = binding.etBody;
+        btSubmit = binding.btSubmit;
+        tlCounter = binding.tlCounter;
     }
 
     /**
@@ -148,6 +156,18 @@ public class ComposeTweetActivity extends AppCompatActivity {
             Log.e(TAG, "Failed to extract tweet from JSON");
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_compose, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     public void showProgressBar() {

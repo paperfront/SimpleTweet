@@ -29,6 +29,8 @@
             android:inputType="textMultiLine"
             android:minLines="5"
             android:textAlignment="gravity"
+            android:backgroundTint="@color/white"
+            android:textColor="#000000"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -37,7 +39,7 @@
         android:id="@+id/btSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etBody"
+        android:layout_below="@+id/tlCounter"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"

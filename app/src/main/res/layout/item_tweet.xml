@@ -45,7 +45,9 @@
             android:layout_marginTop="0dp"
             android:layout_marginEnd="16dp"
             android:layout_toEndOf="@+id/ivProfile"
-            tools:text="I love memorizing chess openings!" />
+            tools:text="I love memorizing chess openings!"
+            android:autoLink="all"
+            android:linksClickable="true"/>
 
         <TextView
             android:id="@+id/tvUsername"
@@ -55,16 +57,19 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="0dp"
             android:layout_toEndOf="@+id/tvName"
+            android:textSize="12sp"
             tools:text="/@mrchess" />
 
         <TextView
             android:id="@+id/tvTimestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tvUsername"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="0dp"
+            android:layout_alignBottom="@+id/tvUsername"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="0dp"
             android:layout_toEndOf="@+id/tvUsername"
+            android:maxLines="1"
+            android:textSize="10sp"
             tools:text="20h" />
 
         <ImageView

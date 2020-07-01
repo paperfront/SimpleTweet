@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -11,11 +12,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.REST.TwitterApplication;
 import com.codepath.apps.restclienttemplate.REST.TwitterClient;
 import com.codepath.apps.restclienttemplate.adapters.TweetsAdapter;
+import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
@@ -36,7 +39,8 @@ public class TimelineActivity extends AppCompatActivity {
     private RecyclerView rvTimeline;
     private TweetsAdapter adapter;
     private SwipeRefreshLayout swipeContainer;
-
+    private MenuItem miActionProgressItem;
+    private ActivityTimelineBinding binding;
 
     public static final int REQUEST_POST_TWEET = 100;
 
@@ -46,14 +50,14 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timeline);
+        binding = ActivityTimelineBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         client = TwitterApplication.getRestClient(this);
 
         bindElements();
         setupElements();
-
-        fetchTimelineAsync();
     }
 
     /**
@@ -61,9 +65,8 @@ public class TimelineActivity extends AppCompatActivity {
      * todo Switch to ViewBinding
      */
     private void bindElements() {
-        swipeContainer = findViewById(R.id.swipeContainer);
-        rvTimeline = findViewById(R.id.rvTimeline);
-
+        swipeContainer = binding.swipeContainer;
+        rvTimeline = binding.rvTimeline;
     }
 
     /**
@@ -110,6 +113,7 @@ public class TimelineActivity extends AppCompatActivity {
         // Send the network request to fetch the updated data
         // `client` here is an instance of Android Async HTTP
         // getHomeTimeline is an example endpoint.
+        showProgressBar();
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -123,11 +127,13 @@ public class TimelineActivity extends AppCompatActivity {
 
                 // Now we call setRefreshing(false) to signal refresh has finished
                 swipeContainer.setRefreshing(false);
+                hideProgressBar();
             }
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.e(TAG, "Fetch timeline error: ", throwable);
+                hideProgressBar();
             }
         });
     }
@@ -138,6 +144,13 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        fetchTimelineAsync();
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -163,6 +176,16 @@ public class TimelineActivity extends AppCompatActivity {
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
     }
 
 
