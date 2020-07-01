@@ -106,7 +106,7 @@ public class ComposeTweetActivity extends AppCompatActivity {
     /**
      * Attempts to extract the tweet from a json response,
      * and then passes it back to the parent activity.
-     * @param tweetJson
+     * @param tweetJson A json response containing the data for a tweet.
      */
     private void sendBackTweet(JsonHttpResponseHandler.JSON tweetJson) {
         JSONObject jsonObject = tweetJson.jsonObject;
