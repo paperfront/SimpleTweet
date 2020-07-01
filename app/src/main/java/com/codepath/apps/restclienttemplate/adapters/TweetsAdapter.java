@@ -107,13 +107,22 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 ibLike.setImageResource(R.drawable.ic_vector_heart);
                 ibLike.setColorFilter(ContextCompat.getColor(context, R.color.inline_action_like_pressed),
                         android.graphics.PorterDuff.Mode.SRC_IN);
+            } else {
+                ibLike.setImageResource(R.drawable.ic_vector_heart_stroke);
+                ibLike.setColorFilter(ContextCompat.getColor(context, R.color.light_gray),
+                        android.graphics.PorterDuff.Mode.SRC_IN);
             }
 
             if (tweet.isRetweeted()) {
                 ibRetweet.setImageResource(R.drawable.ic_vector_retweet);
-                ibRetweet.setColorFilter(ContextCompat.getColor(context, R.color.inline_action_retweet_pressed),
+                ibRetweet.setColorFilter(ContextCompat.getColor(context, R.color.twitter_blue_fill_pressed),
+                        android.graphics.PorterDuff.Mode.SRC_IN);
+            } else {
+                ibRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+                ibRetweet.setColorFilter(ContextCompat.getColor(context, R.color.light_gray),
                         android.graphics.PorterDuff.Mode.SRC_IN);
             }
+
             handleButtons(tweet);
         }
 
@@ -141,7 +150,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                                 android.graphics.PorterDuff.Mode.SRC_IN);
                     } else {
                         ibRetweet.setImageResource(R.drawable.ic_vector_retweet);
-                        ibRetweet.setColorFilter(ContextCompat.getColor(context, R.color.inline_action_retweet_pressed),
+                        ibRetweet.setColorFilter(ContextCompat.getColor(context, R.color.twitter_blue_fill_pressed),
                                 android.graphics.PorterDuff.Mode.SRC_IN);
                     }
                 }
