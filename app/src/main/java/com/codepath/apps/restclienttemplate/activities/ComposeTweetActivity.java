@@ -1,7 +1,5 @@
 package com.codepath.apps.restclienttemplate.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,11 +10,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.REST.TwitterApplication;
 import com.codepath.apps.restclienttemplate.REST.TwitterClient;
 import com.codepath.apps.restclienttemplate.databinding.ActivityComposeTweetBinding;
-import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.google.android.material.textfield.TextInputLayout;
@@ -32,11 +31,9 @@ import okhttp3.Headers;
  */
 public class ComposeTweetActivity extends AppCompatActivity {
 
-    private static final String TAG = "ComposeTweetActivity";
     // Maximum characters in a tweet.
     public static final int MAX_TWEET_LENGTH = 280;
-
-
+    private static final String TAG = "ComposeTweetActivity";
     private TextInputLayout tlCounter;
     private TextView etBody;
     private Button btSubmit;
@@ -52,8 +49,6 @@ public class ComposeTweetActivity extends AppCompatActivity {
         binding = ActivityComposeTweetBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
-        setContentView(R.layout.activity_compose_tweet);
 
         client = TwitterApplication.getRestClient(this);
 
@@ -118,6 +113,7 @@ public class ComposeTweetActivity extends AppCompatActivity {
      * Also handles the displaying and hiding of
      * the progress indicator while the post is
      * being made.
+     *
      * @param tweetBody The text contained in the
      *                  body of the tweet ot be
      *                  posted.
@@ -142,6 +138,7 @@ public class ComposeTweetActivity extends AppCompatActivity {
     /**
      * Attempts to extract the tweet from a json response,
      * and then passes it back to the parent activity.
+     *
      * @param tweetJson A json response containing the data for a tweet.
      */
     private void sendBackTweet(JsonHttpResponseHandler.JSON tweetJson) {

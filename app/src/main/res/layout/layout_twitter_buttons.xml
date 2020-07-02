@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/ivMedia"
+    android:layout_marginTop="16dp"
+    android:orientation="horizontal"
+    android:id="@+id/linearTwitterButtons">
+
+    <ImageButton
+        android:id="@+id/ibReply"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:background="#FFFFFF"
+        android:src="@android:drawable/ic_menu_revert" />
+
+    <ImageButton
+        android:id="@+id/ibRetweet"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:background="#FFFFFF"
+        android:tint="@color/light_gray"
+        app:srcCompat="@drawable/ic_vector_retweet_stroke" />
+
+    <ImageButton
+        android:id="@+id/ibLike"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:background="#FFFFFF"
+        app:srcCompat="@drawable/ic_vector_heart_stroke" />
+</LinearLayout>

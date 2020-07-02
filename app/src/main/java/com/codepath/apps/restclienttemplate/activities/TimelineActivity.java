@@ -1,18 +1,17 @@
 package com.codepath.apps.restclienttemplate.activities;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.REST.TwitterApplication;
@@ -32,20 +31,15 @@ import okhttp3.Headers;
 public class TimelineActivity extends AppCompatActivity {
 
     public static final String TAG = "TimelineActivity";
-
+    public static final int REQUEST_POST_TWEET = 100;
+    public static final String KEY_TWEET = "TWEET";
     private TwitterClient client;
     private List<Tweet> tweets;
-
     private RecyclerView rvTimeline;
     private TweetsAdapter adapter;
     private SwipeRefreshLayout swipeContainer;
     private MenuItem miActionProgressItem;
     private ActivityTimelineBinding binding;
-
-    public static final int REQUEST_POST_TWEET = 100;
-
-    public static final String KEY_TWEET = "TWEET";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +131,6 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     @Override
