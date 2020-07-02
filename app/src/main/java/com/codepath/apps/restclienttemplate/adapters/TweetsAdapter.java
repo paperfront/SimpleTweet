@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.REST.TwitterApplication;
 import com.codepath.apps.restclienttemplate.REST.TwitterClient;
 import com.codepath.apps.restclienttemplate.databinding.ItemTweetBinding;
+import com.codepath.apps.restclienttemplate.databinding.LayoutTwitterButtonsBinding;
 import com.codepath.apps.restclienttemplate.helpers.ParseRelativeDate;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -84,6 +86,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         private TextView tvUsername;
         private TextView tvTimestamp;
         private ItemTweetBinding binding;
+        private LayoutTwitterButtonsBinding buttonLayoutBinding;
         private ImageButton ibReply;
         private ImageButton ibRetweet;
         private ImageButton ibLike;
@@ -98,9 +101,10 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvBody = binding.tvBody;
             tvTimestamp = binding.tvTimestamp;
             tvUsername = binding.tvUsername;
-            ibReply = binding.ibReply;
-            ibRetweet = binding.ibRetweet;
-            ibLike = binding.ibLike;
+            buttonLayoutBinding = binding.buttonHolderLayout;
+            ibReply = buttonLayoutBinding.ibReply;
+            ibRetweet = buttonLayoutBinding.ibRetweet;
+            ibLike = buttonLayoutBinding.ibLike;
         }
 
         public void bind(Tweet tweet) {

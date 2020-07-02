@@ -59,7 +59,6 @@ public class ComposeTweetActivity extends AppCompatActivity {
 
     /**
      * Locates and assigns the activity elements.
-     * todo Switch to ViewBinding
      */
     private void bindElements() {
         etBody = binding.etBody;

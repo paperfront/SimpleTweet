@@ -86,7 +86,9 @@
             android:scaleType="fitCenter"
             tools:srcCompat="@tools:sample/avatars" />
 
-        <include layout="@layout/layout_twitter_buttons"></include>
+        <include layout="@layout/layout_twitter_buttons"
+            android:id="@+id/buttonHolderLayout">
+        </include>
 
 
     </RelativeLayout>

@@ -3,6 +3,18 @@ package com.codepath.apps.restclienttemplate.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.PrimaryKey;
+import androidx.room.Query;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,32 +22,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity(foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "userId"))
 public class Tweet implements Parcelable {
 
-    private String body;
-    private String createdAt;
-    private String mediaUrl;
-    private String id;
-    private boolean liked;
-    private boolean retweeted;
-    private User user;
-
     public static final String MISSING_URL_FLAG = "NO MEDIA FOUND";
-
-
-    protected Tweet(Parcel in) {
-        body = in.readString();
-        createdAt = in.readString();
-        mediaUrl = in.readString();
-        id = in.readString();
-        liked = in.readBoolean();
-        retweeted = in.readBoolean();
-        user = in.readParcelable(User.class.getClassLoader());
-    }
-
-    private Tweet() {
-    }
-
     public static final Creator<Tweet> CREATOR = new Creator<Tweet>() {
         @Override
         public Tweet createFromParcel(Parcel in) {
@@ -47,6 +37,41 @@ public class Tweet implements Parcelable {
             return new Tweet[size];
         }
     };
+    @ColumnInfo
+    private String body;
+    @ColumnInfo
+    private String createdAt;
+    @ColumnInfo
+    private String mediaUrl;
+    @ColumnInfo
+    @PrimaryKey
+    @NonNull
+    private String id;
+    @ColumnInfo
+    private boolean liked;
+    @ColumnInfo
+    private boolean retweeted;
+    @Ignore
+    private User user;
+    @ColumnInfo
+    private long userId;
+
+
+    protected Tweet(Parcel in) {
+        body = in.readString();
+        createdAt = in.readString();
+        mediaUrl = in.readString();
+        id = in.readString();
+        liked = in.readBoolean();
+        retweeted = in.readBoolean();
+        user = in.readParcelable(User.class.getClassLoader());
+        userId = in.readLong();
+    }
+
+    public Tweet() {
+
+    }
+
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
@@ -58,18 +83,16 @@ public class Tweet implements Parcelable {
         tweet.id = jsonObject.getString("id_str");
         tweet.mediaUrl = MISSING_URL_FLAG;
         tweet.setMediaUrl(jsonObject);
+        tweet.userId = tweet.user.getId();
         return tweet;
     }
 
-    private void setMediaUrl(JSONObject jsonObject) throws JSONException {
-        JSONObject entities = jsonObject.getJSONObject("entities");
-        if (entities.has("media")) {
-            JSONArray mediaArray = entities.getJSONArray("media");
-            JSONObject firstMedia = mediaArray.getJSONObject(0);
-            mediaUrl = firstMedia.getString("media_url_https");
-        } else {
-            mediaUrl = MISSING_URL_FLAG;
+    public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
+        List<Tweet> tweets = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            tweets.add(fromJson(jsonArray.getJSONObject(i)));
         }
+        return tweets;
     }
 
     public String getBody() {
@@ -86,6 +109,17 @@ public class Tweet implements Parcelable {
 
     public String getMediaUrl() {
         return mediaUrl;
+    }
+
+    private void setMediaUrl(JSONObject jsonObject) throws JSONException {
+        JSONObject entities = jsonObject.getJSONObject("entities");
+        if (entities.has("media")) {
+            JSONArray mediaArray = entities.getJSONArray("media");
+            JSONObject firstMedia = mediaArray.getJSONObject(0);
+            mediaUrl = firstMedia.getString("media_url_https");
+        } else {
+            mediaUrl = MISSING_URL_FLAG;
+        }
     }
 
     public boolean hasMediaUrl() {
@@ -108,14 +142,41 @@ public class Tweet implements Parcelable {
         return id;
     }
 
-    public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
-        List<Tweet> tweets = new ArrayList<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            tweets.add(fromJson(jsonArray.getJSONObject(i)));
-        }
-        return tweets;
+    public long getUserId() {
+        return userId;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setMediaUrl(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
+    public void setRetweeted(boolean retweeted) {
+        this.retweeted = retweeted;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 
     @Override
     public int describeContents() {
@@ -131,5 +192,8 @@ public class Tweet implements Parcelable {
         parcel.writeBoolean(liked);
         parcel.writeBoolean(retweeted);
         parcel.writeParcelable(user, flags);
+        parcel.writeLong(userId);
     }
 }
+
+

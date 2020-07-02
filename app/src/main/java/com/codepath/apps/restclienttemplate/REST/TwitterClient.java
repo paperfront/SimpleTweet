@@ -7,6 +7,7 @@ import com.codepath.apps.restclienttemplate.R;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.codepath.oauth.OAuthBaseClient;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.github.scribejava.apis.FlickrApi;
 import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.api.BaseApi;

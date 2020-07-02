@@ -1,11 +1,15 @@
 package com.codepath.apps.restclienttemplate.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,10 +23,16 @@ import com.codepath.apps.restclienttemplate.REST.TwitterClient;
 import com.codepath.apps.restclienttemplate.adapters.TweetsAdapter;
 import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.TweetDao;
+import com.codepath.apps.restclienttemplate.models.TweetWithUser;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.facebook.stetho.Stetho;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +43,9 @@ public class TimelineActivity extends AppCompatActivity {
     public static final String TAG = "TimelineActivity";
     public static final int REQUEST_POST_TWEET = 100;
     public static final String KEY_TWEET = "TWEET";
+    private RelativeLayout rootLayout;
     private TwitterClient client;
+    private TweetDao tweetDao;
     private List<Tweet> tweets;
     private RecyclerView rvTimeline;
     private TweetsAdapter adapter;
@@ -48,7 +60,10 @@ public class TimelineActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+
+
         client = TwitterApplication.getRestClient(this);
+        tweetDao = ((TwitterApplication) getApplicationContext()).getMyDatabase().tweetDao();
 
         bindElements();
         setupElements();
@@ -61,6 +76,7 @@ public class TimelineActivity extends AppCompatActivity {
     private void bindElements() {
         swipeContainer = binding.swipeContainer;
         rvTimeline = binding.rvTimeline;
+        rootLayout = binding.rootLayout;
     }
 
     /**
@@ -114,7 +130,9 @@ public class TimelineActivity extends AppCompatActivity {
                 // Remember to CLEAR OUT old items before appending in the new ones
                 adapter.clear();
                 try {
-                    adapter.addAll(Tweet.fromJsonArray(json.jsonArray));
+                    List<Tweet> fromNetwork = Tweet.fromJsonArray(json.jsonArray);
+                    adapter.addAll(fromNetwork);
+                    saveToDB(fromNetwork);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -127,7 +145,9 @@ public class TimelineActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.e(TAG, "Fetch timeline error: ", throwable);
-                hideProgressBar();
+                Snackbar.make(rootLayout.getRootView(), "Failed to load new tweets. " +
+                        "Pulling recent tweets from memory...", Snackbar.LENGTH_SHORT).show();
+                loadFromDB();
             }
         });
     }
@@ -180,6 +200,39 @@ public class TimelineActivity extends AppCompatActivity {
         // Hide progress item
         miActionProgressItem.setVisible(false);
     }
+
+    private void loadFromDB() {
+        showProgressBar();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG, "Loading tweets from database");
+                List<TweetWithUser> tweetWithUsers = tweetDao.getRecent();
+                final List<Tweet> tweets = TweetWithUser.getTweetList(tweetWithUsers);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.clear();
+                        adapter.addAll(tweets);
+                        hideProgressBar();
+                        swipeContainer.setRefreshing(false);
+                    }
+                });
+            }
+        });
+    }
+
+    private void saveToDB(final List<Tweet> tweetList) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG, "Saving tweets to database");
+                tweetDao.insertModel(User.fromJsonTweetArray(tweetList).toArray(new User[0]));
+                tweetDao.insertModel(tweetList.toArray(new Tweet[0]));
+            }
+        });
+    }
+
 
 
 }
