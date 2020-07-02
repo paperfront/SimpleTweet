@@ -16,15 +16,24 @@ import java.util.List;
 @Entity
 public class User implements Parcelable {
 
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
     @ColumnInfo
     @PrimaryKey
     private long id;
-
     @ColumnInfo
     private String name;
     @ColumnInfo
     private String screenName;
-
     @ColumnInfo
     private String publicImageUrl;
 
@@ -37,18 +46,6 @@ public class User implements Parcelable {
 
     public User() {
     }
-
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
     public static User fromJson(JSONObject jsonObject) throws JSONException {
 
@@ -73,12 +70,24 @@ public class User implements Parcelable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getScreenName() {
         return screenName;
     }
 
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
+    }
+
     public String getPublicImageUrl() {
         return publicImageUrl;
+    }
+
+    public void setPublicImageUrl(String publicImageUrl) {
+        this.publicImageUrl = publicImageUrl;
     }
 
     public long getId() {
@@ -87,18 +96,6 @@ public class User implements Parcelable {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setScreenName(String screenName) {
-        this.screenName = screenName;
-    }
-
-    public void setPublicImageUrl(String publicImageUrl) {
-        this.publicImageUrl = publicImageUrl;
     }
 
     @Override

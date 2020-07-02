@@ -1,6 +1,5 @@
 package com.codepath.apps.restclienttemplate.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,12 +25,10 @@ import com.codepath.apps.restclienttemplate.models.TweetDao;
 import com.codepath.apps.restclienttemplate.models.TweetWithUser;
 import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.facebook.stetho.Stetho;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +55,6 @@ public class TimelineActivity extends AppCompatActivity {
         binding = ActivityTimelineBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
 
 
         client = TwitterApplication.getRestClient(this);
@@ -232,7 +227,6 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
 }

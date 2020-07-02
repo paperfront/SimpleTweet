@@ -1,15 +1,12 @@
 package com.codepath.apps.restclienttemplate.adapters;
 
-import android.content.ClipData;
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,11 +32,10 @@ import okhttp3.Headers;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
 
+    public static final String TAG = "TweetsAdapter";
     private Context context;
     private List<Tweet> tweets;
     private TwitterClient client;
-
-    public static final String TAG = "TweetsAdapter";
 
 
     public TweetsAdapter(List<Tweet> tweets, Context context) {
@@ -219,6 +215,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                                     e.printStackTrace();
                                 }
                             }
+
                             @Override
                             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                                 Log.e(TAG, "Failed to like tweet at position " + getAdapterPosition());

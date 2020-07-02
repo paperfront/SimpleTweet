@@ -5,15 +5,10 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
-import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
-import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.PrimaryKey;
-import androidx.room.Query;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -99,12 +94,24 @@ public class Tweet implements Parcelable {
         return body;
     }
 
+    public void setBody(String body) {
+        this.body = body;
+    }
+
     public String getCreatedAt() {
         return createdAt;
     }
 
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getMediaUrl() {
@@ -122,6 +129,10 @@ public class Tweet implements Parcelable {
         }
     }
 
+    public void setMediaUrl(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
+    }
+
     public boolean hasMediaUrl() {
         return !mediaUrl.equals(MISSING_URL_FLAG);
     }
@@ -134,44 +145,28 @@ public class Tweet implements Parcelable {
         return liked;
     }
 
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
     public boolean isRetweeted() {
         return retweeted;
+    }
+
+    public void setRetweeted(boolean retweeted) {
+        this.retweeted = retweeted;
     }
 
     public String getId() {
         return id;
     }
 
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setMediaUrl(String mediaUrl) {
-        this.mediaUrl = mediaUrl;
-    }
-
     public void setId(String id) {
         this.id = id;
     }
 
-    public void setLiked(boolean liked) {
-        this.liked = liked;
-    }
-
-    public void setRetweeted(boolean retweeted) {
-        this.retweeted = retweeted;
+    public long getUserId() {
+        return userId;
     }
 
     public void setUserId(long userId) {
